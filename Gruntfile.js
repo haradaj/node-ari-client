@@ -280,7 +280,7 @@ module.exports = function(grunt) {
     var taskDone = this.async();
     var options = this.options({});
 
-    var request = require('request');
+    var fetch = require('node-fetch');
     var fs = require('fs');
     var util = require('util');
     var async = require('async');
@@ -316,17 +316,21 @@ module.exports = function(grunt) {
         options.username,
         options.password
       );
-      request(url, function (err, resp, body) {
-        var filename = util.format(
-          '%s/test/fixtures/%s.json',
-          __dirname,
-          fixtureName
-        );
-        var content = body.replace(/ari\.js/g, 'localhost');
-        fs.writeFileSync(filename, content);
+      fetch(url)
+        .then(function (res) {
+          return res.text();
+        })
+        .then(function (body) {
+          var filename = util.format(
+            '%s/test/fixtures/%s.json',
+            __dirname,
+            fixtureName
+          );
+          var content = body.replace(/ari\.js/g, 'localhost');
+          fs.writeFileSync(filename, content);
 
-        done();
-      });
+          done();
+        });
     }
   });
 };
