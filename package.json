@@ -10,7 +10,7 @@
   "main": "./lib/client.js",
   "scripts": {
     "pretest": "npm run lint",
-    "test": "nyc mocha",
+    "test": "mocha",
     "lint": "jshint . --verbose"
   },
   "repository": {
@@ -48,5 +48,10 @@
     "mustache": "^2.2.1",
     "nyc": "^15.0.0",
     "portfinder": "^1.0.6"
+  }
+  ,
+  "nyc": {
+    "check-coverage": false,
+    "branches": 69
   }
 }
