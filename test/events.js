@@ -28,6 +28,17 @@ describe('events', function () {
   var wsserver = null;
 
   before(function (done) {
+    // Suppress swagger-client deprecation warning
+    var originalLog = console.log;
+    console.log = function() {
+      var args = _.toArray(arguments);
+      var msg = args[0] ? args[0].toString() : '';
+      // Filter out swagger deprecation warning
+      if (msg.indexOf('deprecated version of Swagger') === -1) {
+        originalLog.apply(console, arguments);
+      }
+    };
+
     portfinder.getPort(function (err, port) {
       assert.ifError(err);
 
